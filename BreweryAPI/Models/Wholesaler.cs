@@ -7,6 +7,7 @@ namespace BreweryAPI.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public ICollection<WholesalerStock> WholesalerStocks { get; set; }
         public Wholesaler(string name)
         {
             Name = name;
