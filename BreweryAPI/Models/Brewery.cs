@@ -3,13 +3,22 @@
 namespace BreweryAPI.Models
 {
     [PrimaryKey(nameof(Id))]
-    public class Brewery
+    public class Brewery : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public ICollection<Beer> Beers { get; set; }
         public ICollection<BreweryStock> BreweryStocks { get; set; }
         public Brewery(string name)
+        {
+            Name = name;
+        }
+    }
+
+    public record BreweryDTO
+    {
+        public string Name{ get;set;}
+
+        public BreweryDTO(string name)
         {
             Name = name;
         }

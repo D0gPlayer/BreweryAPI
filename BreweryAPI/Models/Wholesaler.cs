@@ -3,9 +3,8 @@
 namespace BreweryAPI.Models
 {
     [PrimaryKey(nameof(Id))]
-    public class Wholesaler
+    public class Wholesaler : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public ICollection<WholesalerStock> WholesalerStocks { get; set; }
         public Wholesaler(string name)

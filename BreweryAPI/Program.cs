@@ -1,4 +1,8 @@
+using AutoMapper;
 using BreweryAPI.Data;
+using BreweryAPI.DataConfig;
+using BreweryAPI.Models;
+using BreweryAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -14,6 +18,17 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddSwaggerGen();
 
 //Dependency Injection
+#region Repositories
+builder.Services.AddScoped<IRepository<Brewery>, Repository<Brewery>>();
+builder.Services.AddScoped<IRepository<Beer>, Repository<Beer>>();
+builder.Services.AddScoped<IRepository<BreweryStock>, Repository<BreweryStock>>();
+builder.Services.AddScoped<IRepository<Wholesaler>, Repository<Wholesaler>>();
+builder.Services.AddScoped<IRepository<WholesalerStock>, Repository<WholesalerStock>>();
+#endregion
+
+builder.Services.AddAutoMapper(typeof(DefaultMappingProfile));
+
+builder.Services.AddScoped<BaseCRUDService<Brewery, BreweryDTO>, BreweryService>();
 
 builder.Services.AddDbContext<DataContext>(options => 
 {

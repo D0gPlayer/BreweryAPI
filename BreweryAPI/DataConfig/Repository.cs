@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using BreweryAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
 
 namespace BreweryAPI.Data
 {
-     public class Repository<T> : IRepository<T> where T : class
+     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly DataContext _DbContext;
-        public Repository(DataContext dataContext) 
+        public Repository(DataContext dataContext)
         {
             _DbContext = dataContext;
             DbSet = dataContext.Set<T>();
@@ -27,17 +29,17 @@ namespace BreweryAPI.Data
             var entity = DbSet.Find(Id);
             if(entity is null) return false;
 
-            _DbContext.Remove(entity);
+            DbSet.Remove(entity);
             var deleted = await _DbContext.SaveChangesAsync();
             return deleted > 0;
         }
 
-        public async Task<bool> Update(Guid Id)
+        public async Task<bool> Update(T entity)
         {
-            var entity = DbSet.Find(Id);
-            if(entity is null) return false;
+            var entityToUpdate = DbSet.Find(entity.Id);
+            if(entityToUpdate is null) return false;
 
-            _DbContext.Update(entity);
+            _DbContext.Entry(entityToUpdate).CurrentValues.SetValues(entity);
             var updated = await _DbContext.SaveChangesAsync();
             return updated > 0;
 

@@ -3,9 +3,8 @@
 namespace BreweryAPI.Models
 {
     [PrimaryKey(nameof(Id))]
-    public class BreweryStock
+    public class BreweryStock : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid BreweryId { get; set; }
         public Brewery Brewery { get; set; }
         public Beer Beer { get; set; }
