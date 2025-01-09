@@ -2,6 +2,7 @@
 using BreweryAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace BreweryAPI.Controllers
 {
@@ -14,11 +15,23 @@ namespace BreweryAPI.Controllers
             _baseService = baseService;
         }
 
-        [HttpGet("{Id}")]
-        public virtual async Task<IActionResult> Get(Guid Id)
+        [HttpGet("{id}")]
+        public virtual async Task<IActionResult> Get(Guid id)
         {
-            var entity = await _baseService.Get(Id);
+            var entity = await _baseService.Get(id);
             return entity is null ? NotFound() : Ok(entity);
+        }
+
+        [HttpGet("Filter")]
+        public virtual async Task<IActionResult> GetFiltered([FromQuery]Dictionary<string, string> queryFilters)
+        {
+            return Ok(await _baseService.GetFiltered(queryFilters));
+        }
+
+        [HttpGet("All")]
+        public virtual async Task<IActionResult> GetAll()
+        {
+            return Ok(await _baseService.GetAll());
         }
 
         [HttpPost()]
@@ -28,17 +41,17 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
-        [HttpPut("{Id}")]
-        public virtual async Task<IActionResult> Update(Guid Id,TDto dto)
+        [HttpPut("{id}")]
+        public virtual async Task<IActionResult> Update(Guid id,TDto dto)
         {
-            var added = await _baseService.Update(Id, dto);
+            var added = await _baseService.Update(id, dto);
             return added ? Ok() : BadRequest();
         }
 
-        [HttpDelete("{Id}")]
-        public virtual async Task<IActionResult> Delete(Guid Id)
+        [HttpDelete("{id}")]
+        public virtual async Task<IActionResult> Delete(Guid id)
         {
-            var deleted = await _baseService.Delete(Id);
+            var deleted = await _baseService.Delete(id);
             return deleted ? Ok() : BadRequest();
         }
     }

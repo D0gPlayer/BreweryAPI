@@ -28,12 +28,16 @@ builder.Services.AddScoped<IRepository<WholesalerStock>, Repository<WholesalerSt
 
 builder.Services.AddAutoMapper(typeof(DefaultMappingProfile));
 
-builder.Services.AddScoped<BaseCRUDService<Brewery, BreweryDTO>, BreweryService>();
+#region Services
+builder.Services.AddTransient<BaseCRUDService<Brewery, BreweryDTO>, BreweryService>();
+builder.Services.AddTransient<BaseCRUDService<Beer, BeerDTO>, BeerService>();
+#endregion
 
 builder.Services.AddDbContext<DataContext>(options => 
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 
 var app = builder.Build();
 

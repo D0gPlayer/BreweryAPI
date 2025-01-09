@@ -23,8 +23,8 @@ namespace BreweryAPI.Models
 
     public record BeerDTO
     {
-        public string Name { get; set; }
-        public float Price { get; set; }
-        public Guid BreweryId { get; set; }
+        public string? Name { get; set; }
+        public float? Price { get; set; }
+        public Guid? BreweryId { get; set; }
     }
 }

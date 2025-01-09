@@ -16,11 +16,6 @@ namespace BreweryAPI.Models
 
     public record BreweryDTO
     {
-        public string Name{ get;set;}
-
-        public BreweryDTO(string name)
-        {
-            Name = name;
-        }
+        public string? Name{ get;set;}
     }
 }
