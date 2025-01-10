@@ -29,8 +29,9 @@ builder.Services.AddScoped<IRepository<WholesalerStock>, Repository<WholesalerSt
 builder.Services.AddAutoMapper(typeof(DefaultMappingProfile));
 
 #region Services
-builder.Services.AddTransient<BaseCRUDService<Brewery, BreweryDTO>, BreweryService>();
-builder.Services.AddTransient<BaseCRUDService<Beer, BeerDTO>, BeerService>();
+builder.Services.AddTransient<BaseCRUDService<Brewery, BreweryDTO>, BaseCRUDService<Brewery, BreweryDTO>>();
+builder.Services.AddTransient<IBreweryService, BreweryService>();
+builder.Services.AddTransient<BaseCRUDService<Beer, BeerDTO>, BaseCRUDService<Beer, BeerDTO>>();
 #endregion
 
 builder.Services.AddDbContext<DataContext>(options => 

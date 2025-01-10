@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace BreweryAPI.Controllers
 {
-    public class BaseCRUDController<T, TDto> : ControllerBase where T : BaseEntity 
+    public abstract class BaseCRUDController<T, TDto> : ControllerBase where T : BaseEntity 
     {
         private readonly BaseCRUDService<T, TDto> _baseService;
 

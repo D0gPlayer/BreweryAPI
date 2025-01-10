@@ -9,6 +9,7 @@ namespace BreweryAPI.DataConfig
         {
             CreateMap<BreweryDTO, Brewery>();
             CreateMap<BeerDTO, Beer>();
+            CreateMap<AddBeerToStockDTO, BreweryStock>();
         }
     }
 }

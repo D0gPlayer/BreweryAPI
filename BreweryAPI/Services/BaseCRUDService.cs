@@ -7,13 +7,13 @@ using System.Reflection;
 
 namespace BreweryAPI.Services
 {
-    public abstract class BaseCRUDService<T, TDto> where T : BaseEntity
+    public class BaseCRUDService<T, TDto> where T : BaseEntity
     {
-        private readonly IRepository<T> _repository;
-        private readonly IMapper _mapper;
+        protected readonly IRepository<T> _repository;
+        protected readonly IMapper _mapper;
         //private readonly ILogger _logger;
 
-        protected BaseCRUDService(IRepository<T> repository, IMapper mapper)
+        public BaseCRUDService(IRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

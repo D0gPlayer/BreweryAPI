@@ -11,4 +11,11 @@ namespace BreweryAPI.Models
         public Guid BeerId { get; set; } 
         public int Amount { get; set; }
     }
+
+    public record AddBeerToStockDTO
+    {
+        public Guid BreweryId { get; set; }
+        public Guid BeerId { get; set; } 
+        public int Amount { get; set; }
+    }
 }
