@@ -32,6 +32,7 @@ builder.Services.AddAutoMapper(typeof(DefaultMappingProfile));
 builder.Services.AddTransient<BaseCRUDService<Brewery, BreweryDTO>, BaseCRUDService<Brewery, BreweryDTO>>();
 builder.Services.AddTransient<IBreweryService, BreweryService>();
 builder.Services.AddTransient<BaseCRUDService<Beer, BeerDTO>, BaseCRUDService<Beer, BeerDTO>>();
+builder.Services.AddTransient<BaseCRUDService<Wholesaler, WholesalerDTO>, BaseCRUDService<Wholesaler, WholesalerDTO>>();
 #endregion
 
 builder.Services.AddDbContext<DataContext>(options => 

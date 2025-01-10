@@ -7,9 +7,10 @@ namespace BreweryAPI.Models
     {
         public string Name { get; set; }
         public ICollection<WholesalerStock> WholesalerStocks { get; set; }
-        public Wholesaler(string name)
-        {
-            Name = name;
-        }
+    }
+
+    public record WholesalerDTO
+    {
+        public string Name { get; set; }
     }
 }

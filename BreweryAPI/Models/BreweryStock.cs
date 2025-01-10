@@ -18,4 +18,12 @@ namespace BreweryAPI.Models
         public Guid BeerId { get; set; } 
         public int Amount { get; set; }
     }
+
+    public record SellBeerDTO
+    {
+        public Guid BreweryId { get; set; }
+        public Guid BeerId { get; set; }
+        public Guid WholesalerId { get; set; }
+        public int Amount { get; set; }
+    }
 }

@@ -22,6 +22,13 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
+        [HttpPost("SellBeerToWholesaler")]
+        public async Task<IActionResult> SellBeerToWholesaler(SellBeerDTO dto)
+        {
+            var added = await _breweryService.SellBeerToWholesaler(dto);
+            return added ? Ok() : BadRequest();
+        }
+
         [HttpGet("GetStock")]
         public virtual async Task<IActionResult> GetStock(Guid id)
         {
