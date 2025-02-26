@@ -37,7 +37,8 @@ namespace BreweryAPI.Services
         {
             var breweryStock = await _breweryStockRepository.DbSet.FirstOrDefaultAsync(x =>
                 x.BreweryId == dto.BreweryId && x.BeerId == dto.BeerId);
-            if (breweryStock == null || breweryStock.Amount < dto.Amount) 
+
+            if(!IsBeerStockSufficient(breweryStock, dto.Amount)) 
                 throw new InvalidDataException($"Brewery is out of stock(Requested: {dto.Amount}, Stock: {breweryStock?.Amount})");
             
             breweryStock.Amount -= dto.Amount;
@@ -55,6 +56,11 @@ namespace BreweryAPI.Services
                 wholesalerStock.Amount += dto.Amount;
                 return await _wholesalerStockRepository.Update(wholesalerStock);
             }
+        }
+
+        public static bool IsBeerStockSufficient(BreweryStock? breweryStock, int amount)
+        {
+            return (breweryStock != null && breweryStock.Amount >= amount);
         }
 
         public async Task<IList<BreweryStock>> GetStock(Guid id)
