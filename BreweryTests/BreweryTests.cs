@@ -6,6 +6,7 @@ namespace BreweryTests
     [TestClass]
     public sealed class BreweryTests
     {
+        #region IsBeerStockSufficient
         [TestMethod]
         public void IsBeerStockSufficient_True()
         {
@@ -37,5 +38,6 @@ namespace BreweryTests
 
             Assert.IsFalse(result);
         }
+        #endregion
     }
 }
