@@ -1,5 +1,6 @@
 ﻿using BreweryAPI.Models;
 using BreweryAPI.Services;
+using BreweryAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

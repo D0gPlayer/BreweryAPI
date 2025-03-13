@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BreweryAPI.Data;
 using BreweryAPI.Models;
+using BreweryAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BreweryAPI.Services

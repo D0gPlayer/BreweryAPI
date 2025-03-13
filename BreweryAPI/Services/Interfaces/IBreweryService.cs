@@ -1,6 +1,6 @@
 ﻿using BreweryAPI.Models;
 
-namespace BreweryAPI.Services
+namespace BreweryAPI.Services.Interfaces
 {
     public interface IBreweryService
     {

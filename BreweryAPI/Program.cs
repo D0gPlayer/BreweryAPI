@@ -2,7 +2,10 @@ using AutoMapper;
 using BreweryAPI.Data;
 using BreweryAPI.DataConfig;
 using BreweryAPI.Models;
+using BreweryAPI.Models.Auth;
 using BreweryAPI.Services;
+using BreweryAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -24,9 +27,17 @@ builder.Services.AddScoped<IRepository<Beer>, Repository<Beer>>();
 builder.Services.AddScoped<IRepository<BreweryStock>, Repository<BreweryStock>>();
 builder.Services.AddScoped<IRepository<Wholesaler>, Repository<Wholesaler>>();
 builder.Services.AddScoped<IRepository<WholesalerStock>, Repository<WholesalerStock>>();
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
 #endregion
 
+#region Utilities
 builder.Services.AddAutoMapper(typeof(DefaultMappingProfile));
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+#endregion
 
 #region Services
 builder.Services.AddTransient<BaseCRUDService<Brewery, BreweryDTO>, BaseCRUDService<Brewery, BreweryDTO>>();
@@ -34,11 +45,6 @@ builder.Services.AddTransient<IBreweryService, BreweryService>();
 builder.Services.AddTransient<BaseCRUDService<Beer, BeerDTO>, BaseCRUDService<Beer, BeerDTO>>();
 builder.Services.AddTransient<BaseCRUDService<Wholesaler, WholesalerDTO>, BaseCRUDService<Wholesaler, WholesalerDTO>>();
 #endregion
-
-builder.Services.AddDbContext<DataContext>(options => 
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
 
 
 var app = builder.Build();
