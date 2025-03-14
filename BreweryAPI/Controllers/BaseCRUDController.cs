@@ -1,5 +1,6 @@
 ﻿using BreweryAPI.Models;
 using BreweryAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -15,6 +16,7 @@ namespace BreweryAPI.Controllers
             _baseService = baseService;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public virtual async Task<IActionResult> Get(Guid id)
         {
@@ -22,18 +24,21 @@ namespace BreweryAPI.Controllers
             return entity is null ? NotFound() : Ok(entity);
         }
 
+        [Authorize]
         [HttpGet("Filter")]
         public virtual async Task<IActionResult> GetFiltered([FromQuery]Dictionary<string, string> queryFilters)
         {
             return Ok(await _baseService.GetFiltered(queryFilters));
         }
 
+        [Authorize]
         [HttpGet("All")]
         public virtual async Task<IActionResult> GetAll()
         {
             return Ok(await _baseService.GetAll());
         }
 
+        [Authorize]
         [HttpPost()]
         public virtual async Task<IActionResult> Add(TDto dto)
         {
@@ -41,6 +46,7 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public virtual async Task<IActionResult> Update(Guid id,TDto dto)
         {
@@ -48,6 +54,7 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(Guid id)
         {

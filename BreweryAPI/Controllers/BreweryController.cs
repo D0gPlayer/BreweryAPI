@@ -1,6 +1,7 @@
 ﻿using BreweryAPI.Models;
 using BreweryAPI.Services;
 using BreweryAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace BreweryAPI.Controllers
             _breweryService = breweryService;
         }
 
+        [Authorize]
         [HttpPost("AddBeerToStock")]
         public async Task<IActionResult> AddBeerToStock(AddBeerToStockDTO dto)
         {
@@ -23,6 +25,7 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
+        [Authorize]
         [HttpPost("SellBeerToWholesaler")]
         public async Task<IActionResult> SellBeerToWholesaler(SellBeerDTO dto)
         {
@@ -30,6 +33,7 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
+        [Authorize]
         [HttpGet("GetStock")]
         public virtual async Task<IActionResult> GetStock(Guid id)
         {

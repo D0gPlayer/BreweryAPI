@@ -1,4 +1,5 @@
 ﻿using BreweryAPI.Models;
+using BreweryAPI.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace BreweryAPI.Data
@@ -15,6 +16,7 @@ namespace BreweryAPI.Data
         public DbSet<BreweryStock> BreweryBeers { get; set; }
         public DbSet<Wholesaler> Wholesalers { get; set; }
         public DbSet<WholesalerStock> WholesalerStocks { get; set; }
+        public DbSet<User> Users{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +58,10 @@ namespace BreweryAPI.Data
 
             modelBuilder.Entity<BreweryStock>()
                 .Property(bs => bs.Amount)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(user => user.UserName)
                 .IsRequired();
         }
     }

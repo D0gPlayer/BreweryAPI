@@ -14,14 +14,13 @@ namespace BreweryAPI.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IMapper _mapper;
         private readonly IRepository<User> _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IConfiguration _configuration;
 
-        public AuthService(IMapper mapper, IRepository<User> userRepository, IPasswordHasher<User> passwordHasher, IConfiguration configuration)
+        public AuthService(IRepository<User> userRepository,
+            IPasswordHasher<User> passwordHasher, IConfiguration configuration)
         {
-            _mapper = mapper;
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _configuration = configuration;
@@ -51,15 +50,17 @@ namespace BreweryAPI.Services
 
         private string CreateToken(User user)
         {
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.UserName)};
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())};
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:Token")!));
+                Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var tokenDescriptor = new JwtSecurityToken(
-                issuer: _configuration.GetValue<string>("AppSettings:Issuer"),
-                audience: _configuration.GetValue<string>("AppSettings:Audience"),
+                issuer: _configuration["AppSettings:Issuer"],
+                audience: _configuration["AppSettings:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: creds);

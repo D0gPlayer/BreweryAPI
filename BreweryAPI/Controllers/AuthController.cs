@@ -1,5 +1,6 @@
 ﻿using BreweryAPI.Models.Auth;
 using BreweryAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,14 +16,16 @@ namespace BreweryAPI.Controllers
             _authService = authService;
         }
 
-        [HttpPost()]
+        [AllowAnonymous]
+        [HttpPost("login")]
         public virtual async Task<IActionResult> Login(UserDTO userDto)
         {
             var token = await _authService.Login(userDto);
             return !string.IsNullOrEmpty(token) ? Ok(token) : BadRequest();
         }
 
-        [HttpPost()]
+        [Authorize]
+        [HttpPost("register")]
         public virtual async Task<IActionResult> Register(UserDTO userDto)
         {
             var registered = await _authService.Register(userDto);
