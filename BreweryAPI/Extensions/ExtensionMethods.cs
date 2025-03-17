@@ -4,7 +4,7 @@ namespace BreweryAPI.Extensions
 {
     public static class ExtensionMethods
     {
-        public static IQueryable<T> AddFilter<T>(this IQueryable<T> query, Dictionary<string, string> queryFilters)
+        public static IQueryable<T> AddFilters<T>(this IQueryable<T> query, Dictionary<string, string> queryFilters)
         {
             try
             {

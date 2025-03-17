@@ -34,7 +34,7 @@ public class AddFilterToQueryTests
         var filters = new Dictionary<string, string> { { "Name", "Corona" } };
 
         // Act
-        var result = beers.AddFilter(filters).ToList();
+        var result = beers.AddFilters(filters).ToList();
 
         // Assert
         Assert.AreEqual(2, result.Count, "Expected exactly 2 beers with Name 'Corona'.");
@@ -53,7 +53,7 @@ public class AddFilterToQueryTests
         var filters = new Dictionary<string, string> { { "Price", "5.5" } };
 
         // Act
-        var result = beers.AddFilter(filters).ToList();
+        var result = beers.AddFilters(filters).ToList();
 
         // Assert
         Assert.AreEqual(2, result.Count, "Expected exactly 2 beers with Price 5.5.");
@@ -74,7 +74,7 @@ public class AddFilterToQueryTests
         var filters = new Dictionary<string, string> { { "BreweryId", targetBrewery.ToString() } };
 
         // Act
-        var result = queryableBeers.AddFilter(filters).ToList();
+        var result = queryableBeers.AddFilters(filters).ToList();
 
         // Assert
         // There are two beers with BreweryId equal to targetBrewery.
@@ -94,7 +94,7 @@ public class AddFilterToQueryTests
         var filters = new Dictionary<string, string> { { "NonExistentProperty", "value" } };
 
         // Act - expect an exception when filtering on a property that does not exist.
-        var result = beers.AddFilter(filters).ToList();
+        var result = beers.AddFilters(filters).ToList();
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class AddFilterToQueryTests
         var filters = new Dictionary<string, string> { { "BreweryId", "not-a-guid" } };
 
         // Act - expect an exception when the BreweryId cannot be parsed as a Guid.
-        var result = beers.AddFilter(filters).ToList();
+        var result = beers.AddFilters(filters).ToList();
     }
 }
 

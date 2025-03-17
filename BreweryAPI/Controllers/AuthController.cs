@@ -24,7 +24,7 @@ namespace BreweryAPI.Controllers
             return !string.IsNullOrEmpty(token) ? Ok(token) : BadRequest();
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("register")]
         public virtual async Task<IActionResult> Register(UserDTO userDto)
         {

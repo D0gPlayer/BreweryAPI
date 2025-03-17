@@ -25,6 +25,6 @@ namespace BreweryAPI.Models
     {
         public string? Name { get; set; }
         public float? Price { get; set; }
-        public Guid? BreweryId { get; set; }
+        public Guid BreweryId { get; set; }
     }
 }

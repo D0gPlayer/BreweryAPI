@@ -28,12 +28,12 @@ namespace BreweryAPI.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            return await _repository.Delete(id);
+            return await _repository.DeleteWithCache(id);
         }
 
         public async Task<T?> Get(Guid id)
         {
-            return await _repository.DbSet.FindAsync(id);
+            return await _repository.GetCached(id);
         }
 
         public async Task<IList<T>> GetAll()
@@ -44,7 +44,7 @@ namespace BreweryAPI.Services
         public async Task<IList<T>> GetFiltered(Dictionary<string, string> queryFilters)
         {
             var query = _repository.DbSet.AsNoTracking().AsQueryable();
-            query.AddFilter(queryFilters);
+            query.AddFilters(queryFilters);
 
             return await query.ToListAsync();
         }
@@ -54,7 +54,7 @@ namespace BreweryAPI.Services
         {
             var entity = _mapper.Map<TDto, T>(dto);
             entity.Id = id;
-            return await _repository.Update(entity);
+            return await _repository.UpdateWithCache(entity);
         }
     }
 }
