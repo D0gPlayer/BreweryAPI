@@ -45,11 +45,10 @@ namespace BreweryAPI.Data
 
         public async Task<bool> Update(T entity)
         {
-            var entityToUpdate = await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == entity.Id);
+            var entityToUpdate = await DbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
             if (entityToUpdate == null)
                 return false;
 
-            _DbContext.Attach(entityToUpdate);
             foreach (var prop in typeof(T).GetProperties())
             {
                 if (!prop.CanWrite || prop.Name == "Id")
@@ -70,11 +69,10 @@ namespace BreweryAPI.Data
 
         public async Task<bool> UpdateWithCache(T entity)
         {
-            var entityToUpdate = await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == entity.Id);
+            var entityToUpdate = await DbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
             if (entityToUpdate == null)
                 return false;
 
-            _DbContext.Attach(entityToUpdate);
             foreach (var prop in typeof(T).GetProperties())
             {
                 if (!prop.CanWrite || prop.Name == "Id")

@@ -93,7 +93,9 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddTransient<BaseCRUDService<Brewery, BreweryDTO>, BaseCRUDService<Brewery, BreweryDTO>>();
 builder.Services.AddTransient<BaseCRUDService<Beer, BeerDTO>, BaseCRUDService<Beer, BeerDTO>>();
 builder.Services.AddTransient<BaseCRUDService<Wholesaler, WholesalerDTO>, BaseCRUDService<Wholesaler, WholesalerDTO>>();
+
 builder.Services.AddTransient<IBreweryService, BreweryService>();
+
 builder.Services.AddTransient<IAuthService, AuthService>();
 #endregion
 

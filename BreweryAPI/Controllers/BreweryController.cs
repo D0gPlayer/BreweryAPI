@@ -17,7 +17,6 @@ namespace BreweryAPI.Controllers
             _breweryService = breweryService;
         }
 
-        [Authorize]
         [HttpPost("AddBeerToStock")]
         public async Task<IActionResult> AddBeerToStock(AddBeerToStockDTO dto)
         {
@@ -25,7 +24,6 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
-        [Authorize]
         [HttpPost("SellBeerToWholesaler")]
         public async Task<IActionResult> SellBeerToWholesaler(SellBeerDTO dto)
         {
@@ -33,7 +31,6 @@ namespace BreweryAPI.Controllers
             return added ? Ok() : BadRequest();
         }
 
-        [Authorize]
         [HttpGet("GetStock")]
         public virtual async Task<IActionResult> GetStock(Guid id)
         {
