@@ -1,0 +1,24 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+
+exporters:
+  prometheus:
+    endpoint: localhost:8889
+
+processors:
+  batch:
+
+extensions:
+  health_check:
+    endpoint: localhost:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]

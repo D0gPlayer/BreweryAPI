@@ -1,4 +1,5 @@
-﻿using BreweryAPI.Models;
+﻿using BreweryAPI.Extensions;
+using BreweryAPI.Models;
 using BreweryAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,8 @@ namespace BreweryAPI.Controllers
         [HttpGet("All")]
         public virtual async Task<IActionResult> GetAll()
         {
-            return Ok(await _baseService.GetAll());
+            //return Ok(await _baseService.GetAll());
+            return Ok(await _baseService.GetAllCached(Request.CreateRequestCacheKey()));
         }
 
         [HttpPost()]

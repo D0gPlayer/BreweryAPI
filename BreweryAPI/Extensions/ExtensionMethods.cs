@@ -1,9 +1,37 @@
-﻿using System.Linq.Expressions;
+﻿using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System.Linq.Expressions;
 
 namespace BreweryAPI.Extensions
 {
     public static class ExtensionMethods
     {
+
+        public static string CreateRequestCacheKey(this HttpRequest request)
+        {
+            return request.Path + request.QueryString;
+        }
+
+        public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddOpenTelemetry()
+                .WithMetrics(opts =>
+                {
+                    opts.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("BreweryAPI"))
+                    .AddMeter("DemoMeter")
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddProcessInstrumentation()
+                    .AddOtlpExporter(opts =>
+                    {
+                        opts.Endpoint = new Uri(builder.Configuration["Otel:Endpoint"]);
+                    });
+                });
+            return builder;
+        }
+
         public static IQueryable<T> AddFilters<T>(this IQueryable<T> query, Dictionary<string, string> queryFilters)
         {
             try

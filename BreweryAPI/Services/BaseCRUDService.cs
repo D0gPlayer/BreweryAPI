@@ -38,15 +38,22 @@ namespace BreweryAPI.Services
 
         public async Task<IList<T>> GetAll()
         {
-            return await _repository.DbSet.AsNoTracking().ToListAsync();
+            return await _repository.GetAll();
+        }
+
+        public async Task<IList<T>> GetAllCached(string requestKey)
+        {
+            return await _repository.GetAllCached(requestKey);
         }
 
         public async Task<IList<T>> GetFiltered(Dictionary<string, string> queryFilters)
         {
-            var query = _repository.DbSet.AsNoTracking().AsQueryable();
-            query.AddFilters(queryFilters);
+            return await _repository.GetFiltered(queryFilters);
+        }
 
-            return await query.ToListAsync();
+        public async Task<IList<T>> GetFilteredCached(string requestKey, Dictionary<string, string> queryFilters)
+        {
+            return await _repository.GetFilteredCached(requestKey, queryFilters);
         }
 
 

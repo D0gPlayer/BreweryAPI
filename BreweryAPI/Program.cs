@@ -1,6 +1,7 @@
 using AutoMapper;
 using BreweryAPI.Data;
 using BreweryAPI.DataConfig;
+using BreweryAPI.Extensions;
 using BreweryAPI.Models;
 using BreweryAPI.Models.Auth;
 using BreweryAPI.Services;
@@ -15,13 +16,14 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.ConfigureOpenTelemetry();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+#region Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     // Include 'SecurityScheme' to use JWT Authentication
@@ -48,8 +50,8 @@ builder.Services.AddSwaggerGen(options =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
+#endregion
 
-//Dependency Injection
 #region Repositories
 builder.Services.AddScoped<IRepository<Brewery>, Repository<Brewery>>();
 builder.Services.AddScoped<IRepository<Beer>, Repository<Beer>>();
@@ -108,6 +110,7 @@ if (app.Environment.IsDevelopment())
    app.UseSwagger();
    app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

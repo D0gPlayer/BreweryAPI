@@ -22,11 +22,20 @@ namespace BreweryAPI.Data
             DbSet = dataContext.Set<T>();
         }
 
-        public async Task<T> GetCached(Guid Id)
+        public async Task<T?> Get(Guid Id)
+        { 
+            var entity = await DbSet.FindAsync(Id);
+            if (entity is null)
+                return null;
+
+            return entity;
+        }
+
+        public async Task<T?> GetCached(Guid Id)
         {
-            var cachedRecord = await _cache.GetRecordAsync<T>(Id.ToString());
-            if (cachedRecord is not null)
-                return cachedRecord;
+            var cachedEntity = await _cache.GetRecordAsync<T>(Id.ToString());
+            if (cachedEntity is not null)
+                return cachedEntity;
 
             var entity = await DbSet.FindAsync(Id);
             if (entity is null)
@@ -34,6 +43,45 @@ namespace BreweryAPI.Data
 
             await _cache.SetRecordAsync<T>(Id.ToString(), entity);
             return entity;
+        }
+
+        public async Task<IList<T>> GetAll()
+        {
+            return await DbSet.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IList<T>> GetAllCached(string cacheKey)
+        {
+            var cachedRecords = await _cache.GetRecordsAsync<T>(cacheKey);
+            if (cachedRecords is not null)
+                return cachedRecords;
+
+            var entities = await DbSet.AsNoTracking().ToListAsync();
+            await _cache.SetRecordsAsync<T>(cacheKey, entities);
+
+            return entities;
+        }
+
+        public async Task<IList<T>> GetFiltered(Dictionary<string, string> filters)
+        {
+            var query = DbSet.AsNoTracking().AsQueryable();
+            query.AddFilters(filters);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IList<T>> GetFilteredCached(string cacheKey, Dictionary<string, string> filters)
+        {
+            var cachedEntities = await _cache.GetRecordsAsync<T>(cacheKey);
+            if (cachedEntities is not null)
+                return cachedEntities;
+
+            var query = DbSet.AsNoTracking().AsQueryable();
+            query.AddFilters(filters);
+            var entities = await query.ToListAsync();
+            await _cache.SetRecordsAsync<T>(cacheKey, entities);
+
+            return entities;
         }
 
         public async Task<bool> Add(T entity)
